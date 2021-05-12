@@ -5,7 +5,7 @@ type
     nome*:string
     valor*:float
     data*:string 
-    idfornecedor*:string
+    idfornecedor*:int
 
     
   Fornecedor* = ref object of RootObj
@@ -13,6 +13,7 @@ type
     cnpj*:string
     telefone*:int   
     email*:string
+    
 
   Funcionario* = ref object of RootObj
     nome*:string

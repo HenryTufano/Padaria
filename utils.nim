@@ -6,7 +6,7 @@ import db_postgres
 
 var 
   cli:seq[Cliente]
-  forn:seq[Fornecedores]
+  forn:seq[Fornecedor]
   pro:seq[Produto]
   
 
@@ -52,7 +52,7 @@ proc cadCliente*() =
   cli.email=readline(stdin)
 
   echo "Digite telefone do cli"
-  cli.telefone=readline(stdin)
+  cli.telefone=parseInt(readline(stdin))
 
   linha()
 
