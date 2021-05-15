@@ -3,9 +3,9 @@ import utils
 type
   Produto* = ref object of RootObj  
     nome*:string
-    valor*:float
-    data*:string 
     idfornecedor*:int
+    valor*:float
+    quant*:int
 
     
   Fornecedor* = ref object of RootObj
@@ -17,6 +17,7 @@ type
 
   Funcionario* = ref object of RootObj
     nome*:string
+    cpf*:string
     endereco*:string
     email*:string
     telefone*:int

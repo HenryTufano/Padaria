@@ -8,6 +8,7 @@ var
   cli:seq[Cliente]
   forn:seq[Fornecedor]
   pro:seq[Produto]
+  fun:seq[Funcionario]
   
 
 proc linha() =
@@ -18,8 +19,14 @@ proc menu*() =
   Padaria do portuga Padeiro
   [1] - CADASTRAR FUNCIONARIO
   [2] - CADASTRAR CLIENTE
-  [3] - LISTAR
-  [4] - SAIR
+  [3] - CADASTRAR PRODUTO
+  [4] - CADASTRAR FORNECEDOR
+  [5] - REALIZAR UMA VENDA
+  [6] - LISTAR FUNCIONARIOS
+  [7] - LISTAR CLIENTES
+  [8] - LISTAR PRODUTOS
+  [9] - LISTAR FORNECEDORES
+  [10] - SAIR
 	"""
   linha()
 
@@ -29,7 +36,7 @@ proc subMenu*()=
   linha()
   echo """
     ADMIN - SUBMENU
-    [1] - LISTAR CarroES
+    [1] - REALIZAR UMA VENDA
     [2] - LISTAR CLIENTES
     [3] - LISTAR PRODUTOS
     [4] - VOLTAR AO MENU ANTERIOR"""
@@ -54,6 +61,37 @@ proc cadCliente*() =
   echo "Digite telefone do cli"
   cli.telefone=parseInt(readline(stdin))
 
+  insertCliente(cli)
+
+  linha()
+
+proc cadfuncionario*() = 
+  var y=""
+  var fun = Funcionario()
+  echo "Bem vindo ao Cadastro de Funcionario" 
+  echo "Digite o nome"
+  fun.nome=readline(stdin)
+
+  echo "Digite o cpf"
+  fun.cpf=readline(stdin)
+
+  echo "Digite o endereço do cli"
+  fun.endereco=readline(stdin)
+
+  echo "Digite o email do cli"
+  fun.email=readline(stdin)
+
+  echo "Digite telefone do cli"
+  fun.telefone=parseInt(readline(stdin))
+
+  echo "Este funcionario tera permissoes de administrador?\n [1] - SIM\n [2] - NAO"
+  y=readline(stdin)
+    if y=="1":
+      fun.adm=TRUE
+    else:
+      fun.adm=FALSE
+  
+      
   linha()
 
   
@@ -73,6 +111,7 @@ proc cadfornecedor*() =
   echo "Digite o email do cliente"
   forn.email=readline(stdin)
   
+  insertFornecedor(forn)
   linha()
 
 proc cadProduto*() = 
@@ -84,12 +123,16 @@ proc cadProduto*() =
   echo "Digite o valor"
   pro.valor=parseFloat(readline(stdin))
 
-  echo "Digite a data de validade"
-  pro.data=readline(stdin)
-
   echo "Digite o fornecedor"
   pro.idfornecedor=parseInt(readline(stdin))
 
+  echo "Digite o valor"
+  pro.valor=parseFloat(readline(stdin))
+
+  echo "Digite a quantidade"
+  pro.quant=parseInt(readline(stdin))
+
+  insertEstoque()
   linha()
 
 proc listaprodutos*() = 
@@ -101,3 +144,21 @@ proc listausuarios*() =
   linha()
   
   linha()
+
+proc insertCliente*(cli:Cliente) =
+    let db = open("localhost","rique","12345","revisao")
+    db.exec(sql"""INSERT INTO clientes(nome, cpf , telefone , email )
+                VALUES(?,?,?,?)""",cli.nome,cli.cpf,cli.telefone,cli.email)
+    db.close()
+
+proc insertFornecedor*(fun:Fornecedor) =
+    let db = open("localhost","rique","12345","revisao")
+    db.exec(sql"""INSERT INTO fornecedores(nome, cnpj , telefone , email)
+                VALUES(?,?,?,?)""",fun.nome,fun.cnpj,fun.endereco,fun.telefone)
+    db.close()
+
+proc insertEstoque*(pro:Produto) =
+    let db = open("localhost","rique","12345","revisao")
+    db.exec(sql"""INSERT INTO estoque(nome_produto, idFornecedores , valor , quant)
+                VALUES(?,?,?,?)""",pro.nome_produto,pro.idFornecedor,pro.valor,pro.quant)
+    db.close()
