@@ -32,17 +32,6 @@ proc menu*() =
 
   linha()
 
-proc subMenu*()= 
-  linha()
-  echo """
-    ADMIN - SUBMENU
-    [1] - REALIZAR UMA VENDA
-    [2] - LISTAR CLIENTES
-    [3] - LISTAR PRODUTOS
-    [4] - VOLTAR AO MENU ANTERIOR"""
-      # submenu
-  linha()
-
 proc cadCliente*() = 
   var cli = Cliente()
   echo "Bem vindo ao Cadastro de Cliente" 
@@ -135,30 +124,40 @@ proc cadProduto*() =
   insertEstoque()
   linha()
 
-proc listaprodutos*() = 
-  linha()
-  
-  linha()
-
-proc listausuarios*() =
-  linha()
-  
-  linha()
-
 proc insertCliente*(cli:Cliente) =
-    let db = open("localhost","rique","12345","revisao")
+    let db = open("localhost","rique","12345","padaria")
     db.exec(sql"""INSERT INTO clientes(nome, cpf , telefone , email )
                 VALUES(?,?,?,?)""",cli.nome,cli.cpf,cli.telefone,cli.email)
     db.close()
 
 proc insertFornecedor*(fun:Fornecedor) =
-    let db = open("localhost","rique","12345","revisao")
+    let db = open("localhost","rique","12345","padaria")
     db.exec(sql"""INSERT INTO fornecedores(nome, cnpj , telefone , email)
                 VALUES(?,?,?,?)""",fun.nome,fun.cnpj,fun.endereco,fun.telefone)
     db.close()
 
 proc insertEstoque*(pro:Produto) =
-    let db = open("localhost","rique","12345","revisao")
+    let db = open("localhost","rique","12345","padaria")
     db.exec(sql"""INSERT INTO estoque(nome_produto, idFornecedores , valor , quant)
                 VALUES(?,?,?,?)""",pro.nome_produto,pro.idFornecedor,pro.valor,pro.quant)
+    db.close()
+
+proc listClientes*():string = 
+    let db = open("localhost","rique","12345","padaria")
+    result=db.exec(sql"""SELECT * FROM clientes""")
+    db.close()
+
+proc listEstoque*():string = 
+    let db = open("localhost","rique","12345","padaria")
+    result=db.exec(sql"""SELECT * FROM estoque""")
+    db.close()
+
+proc listFuncionario*():string = 
+    let db = open("localhost","rique","12345","padaria")
+    result=db.exec(sql"""SELECT * FROM funcionarios""")
+    db.close()
+
+proc listFornecedores*():string = 
+    let db = open("localhost","rique","12345","padaria")
+    result=db.exec(sql"""SELECT * FROM fornecedores""")
     db.close()
