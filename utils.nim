@@ -53,7 +53,7 @@ proc cadCliente*() =
 
 
   linha()
-insertCliente(cli)
+
 proc cadfuncionario*() = 
   var y=""
   var fun = Funcionario()
@@ -96,14 +96,14 @@ proc cadfornecedor*() =
   echo "Digite o email do cliente"
   forn.email=readline(stdin)
   
-  insertFornecedor( )
+  
   linha()
 
 proc cadProduto*() = 
   var pro = Produto()
   echo "Bem vindo ao Cadastro produto" 
   echo "Digite o nome"
-  pro.nome=readline(stdin)
+  pro.nome_produto=readline(stdin)
 
   echo "Digite o valor"
   pro.valor=parseFloat(readline(stdin))
@@ -117,7 +117,7 @@ proc cadProduto*() =
   echo "Digite a quantidade"
   pro.quant=parseInt(readline(stdin))
 
-  insertEstoque()
+  
   linha()
 
 proc insertCliente*(cli:Cliente) =
@@ -129,7 +129,13 @@ proc insertCliente*(cli:Cliente) =
 proc insertFornecedor*(fun:Fornecedor) =
     let db = open("localhost","rique","12345","padaria")
     db.exec(sql"""INSERT INTO fornecedores(nome, cnpj , telefone , email)
-                VALUES(?,?,?,?)""",fun.nome,fun.cnpj,fun.endereco,fun.telefone)
+                VALUES(?,?,?,?)""",fun.nome,fun.cnpj,fun.telefone,fun.email)
+    db.close()
+
+proc insertFuncionario*(fun:Funcionario) =
+    let db = open("localhost","rique","12345","padaria")
+    db.exec(sql"""INSERT INTO funcionario(nome, cpf , telefone , email , adm )
+                VALUES(?,?,?,?,?)""",fun.nome,fun.cpf,fun.telefone,fun.email,fun.adm)
     db.close()
 
 proc insertEstoque*(pro:Produto) =
@@ -140,8 +146,9 @@ proc insertEstoque*(pro:Produto) =
 
 proc listClientes*():string = 
     let db = open("localhost","rique","12345","padaria")
-    result=db.exec(sql"""SELECT * FROM clientes""")
+    result=db.exec(sql"""SELECT id,nome, FROM clientes""")
     db.close()
+    
 
 proc listEstoque*():string = 
     let db = open("localhost","rique","12345","padaria")
