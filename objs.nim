@@ -21,7 +21,7 @@ type
     endereco*:string
     email*:string
     telefone*:int
-    adm*:bool
+    adm*:string
   
   Cliente* = ref object of RootObj
     nome*:string

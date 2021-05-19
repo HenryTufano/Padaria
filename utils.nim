@@ -50,10 +50,10 @@ proc cadCliente*() =
   echo "Digite telefone do cli"
   cli.telefone=parseInt(readline(stdin))
 
-  insertCliente(cli)
+
 
   linha()
-
+insertCliente(cli)
 proc cadfuncionario*() = 
   var y=""
   var fun = Funcionario()
@@ -73,12 +73,8 @@ proc cadfuncionario*() =
   echo "Digite telefone do cli"
   fun.telefone=parseInt(readline(stdin))
 
-  echo "Este funcionario tera permissoes de administrador?\n [1] - SIM\n [2] - NAO"
-  y=readline(stdin)
-    if y=="1":
-      fun.adm=TRUE
-    else:
-      fun.adm=FALSE
+  echo "Este funcionario tera permissoes de administrador? [1] - SIM [2] - NAO"
+  fun.adm=readline(stdin)
   
       
   linha()
@@ -100,7 +96,7 @@ proc cadfornecedor*() =
   echo "Digite o email do cliente"
   forn.email=readline(stdin)
   
-  insertFornecedor(forn)
+  insertFornecedor( )
   linha()
 
 proc cadProduto*() = 
@@ -160,4 +156,9 @@ proc listFuncionario*():string =
 proc listFornecedores*():string = 
     let db = open("localhost","rique","12345","padaria")
     result=db.exec(sql"""SELECT * FROM fornecedores""")
+    db.close()
+
+proc vendas*():string = 
+    let db = open("localhost","rique","12345","padaria")
+    r=db.exec(sql"""SELECT id IN SQL estoque""")
     db.close()

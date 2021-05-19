@@ -8,7 +8,7 @@ db.exec(sql"""CREATE TABLE funcionarios(
         cpf VARCHAR(14) NOT NULL,
         telefone INTEGER NOT NULL,
         email VARCHAR(80) NOT NULL,
-        adm BOOLEAN NOT NULL)""")
+        adm VARCHAR(80) NOT NULL)""")
 
 db.exec(sql"DROP TABLE IF EXISTS clientes")
 db.exec(sql"""CREATE TABLE clientes(
