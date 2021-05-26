@@ -1,26 +1,34 @@
 import utils
 import strformat
 import strutils
-var cli=Cliente
-var fun=Funcionario
-var forn=Fornecedor
-var pro=Produto
+import objs
+import sequtils
+
+var cli=new Cliente
+var fun=new Funcionario
+var forn=new Fornecedor
+var pro=new Produto
 var x = "9"
+    
+var y:seq[seq[string]]
+
+y=listClientes()
+echo y
 while x != "10":
     menu()
     var x = readline(stdin)
     
     case x
-    of "1": cadfuncionario() insertFuncionario(fun)
-    of "2": cadCliente() insertCliente(cli)
-    of "3": cadProduto() insertEstoque(pro)
-    of "4": cadfornecedor() insertFornecedor(forn)
-    of "5": 
-    of "6": 
-    of "7": 
-    of "8":
-    of "9": 
+    of "1": cadfuncionario() 
+    of "2": cadCliente() 
+    of "3": cadProduto() 
+    of "4": cadfornecedor() 
+    # of "5": 
+    of "6": echo listFuncionario()
+    of "7": echo listClientes()
+    of "8": echo listEstoque()
+    of "9": echo listFornecedores()
     of "10": 
         echo "Obrigado por utilizar o nosso sistema"
-        break
+            break
     else: echo "Opção inválida!, tente novamente"
