@@ -11,7 +11,7 @@ var
   fun:seq[Funcionario]
   
 
-proc linha() =
+proc linha*() =
   echo "==========================================================================="
 
 proc menu*() =
@@ -56,6 +56,38 @@ proc insertEstoque*(pro:Produto) =
                 VALUES(?,?,?,?)""",pro.nome_produto,pro.idFornecedor,pro.valor,pro.quant)
     db.close()
 
+proc listClientes*():seq[Row] = 
+    let db = open("localhost","rique","12345","padaria")
+    result=db.getAllRows(sql"""SELECT * FROM clientes;""")
+    db.close()
+    
+
+proc listEstoque*():seq[Row] = 
+    let db = open("localhost","rique","12345","padaria")
+    result=db.getAllRows(sql"""SELECT * FROM estoque""")
+    db.close()
+
+proc listFuncionario*():seq[Row] = 
+    let db = open("localhost","rique","12345","padaria")
+    result=db.getAllRows(sql"""SELECT * FROM funcionarios""")
+    db.close()
+
+proc listFornecedores*():seq[Row] = 
+    let db = open("localhost","rique","12345","padaria")
+    result=db.getAllRows(sql"""SELECT * FROM fornecedores""")
+    db.close()
+
+proc vendas*():seq[Row] = 
+    let db = open("localhost","rique","12345","padaria")
+    result=db.getAllRows(sql"""SELECT * IN SQL estoque""")
+    db.close()
+
+# proc tproduto*():seq[Row]=
+#     let db = open("localhost","rique","12345","padaria")
+#     id_p=db.getRow(sql"""SELECT id IN SQL produto WHERE""")
+#     quantp=db.getRow(sql"""SELECT quant IN SQL produto""")
+#     valorp=db.getRow(sql"""SELECT valor IN SQL produto""")
+#     db.close()
 proc cadCliente*() = 
   var cli = Cliente()
   echo "Bem vindo ao Cadastro de Cliente" 
@@ -88,14 +120,11 @@ proc cadfuncionario*() =
   echo "Digite o cpf"
   fun.cpf=readline(stdin)
 
-  echo "Digite o endereço do cli"
-  fun.endereco=readline(stdin)
+  echo "Digite telefone do cli"
+  fun.telefone=parseInt(readline(stdin))
 
   echo "Digite o email do cli"
   fun.email=readline(stdin)
-
-  echo "Digite telefone do cli"
-  fun.telefone=parseInt(readline(stdin))
 
   echo "Este funcionario tera permissoes de administrador? [1] - SIM [2] - NAO"
   fun.adm=readline(stdin)
@@ -111,13 +140,13 @@ proc cadfornecedor*() =
   echo "Digite o nome do fornecedor"
   forn.nome=readline(stdin)
 
-  echo "Digite o endereço do cliente"
+  echo "Digite o cnpj do fornecedor"
   forn.cnpj=readline(stdin)
 
-  echo "Digite o endereço do cliente"
+  echo "Digite o telefone do fornecedor"
   forn.telefone=parseInt(readline(stdin))
 
-  echo "Digite o email do cliente"
+  echo "Digite o email do fornecedor"
   forn.email=readline(stdin)
   
   insertFornecedor(forn)
@@ -129,10 +158,7 @@ proc cadProduto*() =
   echo "Digite o nome"
   pro.nome_produto=readline(stdin)
 
-  echo "Digite o valor"
-  pro.valor=parseFloat(readline(stdin))
-
-  echo "Digite o fornecedor"
+  echo "Digite o valor do ID fornecedor"
   pro.idfornecedor=parseInt(readline(stdin))
 
   echo "Digite o valor"
@@ -143,29 +169,3 @@ proc cadProduto*() =
 
   insertEstoque(pro)
   linha()
-
-proc listClientes*():seq[Row] = 
-    let db = open("localhost","rique","12345","padaria")
-    result=db.getAllRows(sql"""SELECT * FROM clientes;""")
-    db.close()
-    
-
-proc listEstoque*():seq[Row] = 
-    let db = open("localhost","rique","12345","padaria")
-    result=db.getAllRows(sql"""SELECT * FROM estoque""")
-    db.close()
-
-proc listFuncionario*():seq[Row] = 
-    let db = open("localhost","rique","12345","padaria")
-    result=db.getAllRows(sql"""SELECT * FROM funcionarios""")
-    db.close()
-
-proc listFornecedores*():seq[Row] = 
-    let db = open("localhost","rique","12345","padaria")
-    result=db.getAllRows(sql"""SELECT * FROM fornecedores""")
-    db.close()
-
-proc vendas*():seq[Row] = 
-    let db = open("localhost","rique","12345","padaria")
-    result=db.getAllRows(sql"""SELECT id IN SQL estoque""")
-    db.close()
