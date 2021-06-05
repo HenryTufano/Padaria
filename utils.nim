@@ -46,7 +46,7 @@ proc insertFornecedor*(fun:Fornecedor) =
 
 proc insertFuncionario*(fun:Funcionario) =
     let db = open("localhost","rique","12345","padaria")
-    db.exec(sql"""INSERT INTO funcionario(nome, cpf , telefone , email , adm )
+    db.exec(sql"""INSERT INTO funcionarios(nome, cpf , telefone , email , adm )
                 VALUES(?,?,?,?,?)""",fun.nome,fun.cpf,fun.telefone,fun.email,fun.adm)
     db.close()
 
@@ -77,17 +77,44 @@ proc listFornecedores*():seq[Row] =
     result=db.getAllRows(sql"""SELECT * FROM fornecedores""")
     db.close()
 
-proc vendas*():seq[Row] = 
+proc update*(mud:int,tag:string) =
     let db = open("localhost","rique","12345","padaria")
-    result=db.getAllRows(sql"""SELECT * IN SQL estoque""")
+    db.exec(sql"""UPDATE estoque SET quant=? WHERE id=?
+                """,mud,tag)
     db.close()
 
-# proc tproduto*():seq[Row]=
-#     let db = open("localhost","rique","12345","padaria")
-#     id_p=db.getRow(sql"""SELECT id IN SQL produto WHERE""")
-#     quantp=db.getRow(sql"""SELECT quant IN SQL produto""")
-#     valorp=db.getRow(sql"""SELECT valor IN SQL produto""")
-#     db.close()
+
+
+proc tproduto*()=
+    var quanti=0
+    var tag=""
+    var idp=""
+    var varieble=0
+    var mud=0
+    var va=""
+    var valor=0
+    var qua=""
+    var quantidade=0
+    var vends=0
+    let db = open("localhost","rique","12345","padaria")
+    echo "Digite o id do produto"
+    tag=readline(stdin)
+    echo "Digite a quantidade"
+    quanti=parseInt(readline(stdin))
+    for linha in listEstoque():
+            if tag==linha[0]:
+              idp=linha[0]
+              va=linha[3]
+              valor=parseInt(va)
+              qua=linha[4]
+              quantidade=parseInt(qua)
+              mud=quantidade-quanti
+              vends=quanti*valor
+              update(mud,tag)
+              echo vends
+              echo mud
+    db.close()
+  
 proc cadCliente*() = 
   var cli = Cliente()
   echo "Bem vindo ao Cadastro de Cliente" 

@@ -34,12 +34,4 @@
 #         valor FLOAT NOT NULL,
 #         quant INTEGER NOT NULL)""")
 
-# db.exec(sql"DROP TABLE IF EXISTS vendas")
-# db.exec(sql"""CREATE TABLE vendas(
-#         id SERIAL PRIMARY KEY,
-#         idNP INTEGER REFERENCES estoque(id) NOT NULL,
-#         data DATE NOT NULL,
-#         idCliente INTEGER REFERENCES clientes(id) NOT NULL,
-#         idFuncionario INTEGER REFERENCES funcionarios(id) NOT NULL)""")
-# db.close()
 
